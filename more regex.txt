@@ -1,0 +1,22 @@
+gui.createwidget gui/extra_characters.gui extra_characters
+
+effect set_variable = { name = rot value = -30 }
+
+
+effect add_trait = scarred make_trait_inactive = scarred
+make_trait_active = scarred
+
+
+$1 = {\n\tscope = character\n\n\teffect = {\n\t\tclear_toggle = { var = $1 }\n\t}\n\tis_shown = {\n\t\texists = var:$1\n\t}\n}
+trigger = { has_variable = $1 }
+(^\t+(.*)_vis = {)
+$1\n\t\ttrigger = { has_variable = $2 }
+
+trait_button = {\n\ttext = "$1"\n\tdatacontext = "[GetScriptedGui('$1')]"\n\tblockoverride "icon" {\n\t\ttexture = "gfx/interface/icons/traits/$1.dds"\n\t}\n}
+
+
+(\n(\s+)blockoverride "light" { onclick = (.*) })
+
+#background lighting clicks
+(\s+)(blockoverride "light" { (.*GetVariableSystem.Set\().*, ('.*').*})
+$1$2\n$1$3AddTextIf(GetVariableSystem.Exists('lighting'), 'environment'), $4)]"

@@ -1,0 +1,48 @@
+types newFBTypes {#
+    type poses_list = scrollarea {
+		layoutpolicy_vertical = expanding
+
+		scrollbarpolicy_horizontal = always_off
+		scrollbar_vertical = { using = Scrollbar_Vertical }
+
+		scrollwidget = {
+            flowcontainer = {
+                direction = vertical
+                ignoreinvisible = yes
+                parentanchor = hcenter
+                spacing = 10
+
+                fixedgridbox = {
+                    datamodel = "[GetGlobalList('barber_poses')]"
+                    addcolumn = 200
+                    addrow = 30
+
+                    item = {
+                    	button_FB_list = {
+                    		text = "[Scope.GetFlagName]"
+                    		onclick = "[GetVariableSystem.Set( Character.GetFullNameNoTooltip, Scope.GetFlagName)]"
+                    		down = "[GetVariableSystem.HasValue( Character.GetFullNameNoTooltip, Scope.GetFlagName)]"
+                    	}
+                    }
+                }
+
+    			flowcontainer = {
+    				margin_top = 2
+    				parentanchor = hcenter
+    				direction = vertical
+    				ignoreinvisible = yes
+    				spacing =-2
+    				###
+    				using = pose_buttons
+    			}
+    		}
+        }
+	}
+    type defaultPose = button_FB_list {
+        onclick = "[GetVariableSystem.Clear( Character.GetFullNameNoTooltip )]"
+        size = { 200 33 }
+        text = "default"
+        visible = "[GetScriptedGui('choose_pose').IsShown( GuiScope.SetRoot( GetPlayer.MakeScope ).AddScope('character', Character.MakeScope).End)]"
+        onclick = "[GetScriptedGui('default_pose').Execute( GuiScope.SetRoot( Character.MakeScope ).End)]"
+    }
+}

@@ -1,0 +1,98 @@
+types BarberTraitTypes {
+    type muscles = vbox {
+        margin_bottom = -10
+        spacing = 3
+        # layoutpolicy_vertical = expanding
+        layoutpolicy_horizontal = expanding
+        text_single = {
+            block "text" {
+                text = "muscle_mass"
+            }
+            layoutpolicy_horizontal = expanding
+            margin_left = 15
+        }
+        divider_light = {
+            layoutpolicy_horizontal= expanding
+        }
+
+        flowcontainer = {
+            # margin_right = 10
+            margin_left = 15
+            block "tooltip" {
+                tooltip = "muscle_mass_buttons"
+            }
+            spacing = 10
+            layoutpolicy_horizontal = expanding
+
+            text_single = {
+                block "value" {
+                    text = "[GuiScope.SetRoot( Character.MakeScope ).ScriptValue('barber_muscles')|0%]"
+                }
+
+                using = Font_Size_Medium
+                default_format = "#high"
+                align = nobaseline|left
+                min_width = 60
+                max_width = 60
+            }
+
+            # text_single = {
+            #     block "value2" {
+            #         text = "[GuiScope.SetRoot( Character.MakeScope ).ScriptValue('current_muscles')|2]"
+            #     }
+            #
+            #     using = Font_Size_Medium
+            #     default_format = "#high"
+            #     align = nobaseline|left
+            #     min_width = 50
+            #     max_width = 50
+            # }
+
+            button_round = {
+                size = { 28 28 }
+                block "minus" {
+                    enabled = "[GetScriptedGui('muscles_minus').IsValid( GuiScope.SetRoot( Character.MakeScope ).End)]"
+                    onclick = "[GetScriptedGui('muscles_minus').Execute( GuiScope.SetRoot( Character.MakeScope ).End)]"
+                    onrightclick = "[GetScriptedGui('muscles_minus').Execute( GuiScope.SetRoot( Character.MakeScope ).End)]"
+                    onrightclick = "[GetScriptedGui('muscles_minus').Execute( GuiScope.SetRoot( Character.MakeScope ).End)]"
+                }
+                button_ignore = none
+
+                button_minus_small = {
+                    parentanchor = center
+                    alwaystransparent = yes
+                }
+            }
+
+            button_round = {
+                size = { 28 28 }
+                block "plus" {
+                    enabled = "[GetScriptedGui('muscles_plus').IsValid( GuiScope.SetRoot( Character.MakeScope ).End)]"
+                    onclick = "[GetScriptedGui('muscles_plus').Execute( GuiScope.SetRoot( Character.MakeScope ).End)]"
+                    onrightclick = "[GetScriptedGui('muscles_plus').Execute( GuiScope.SetRoot( Character.MakeScope ).End)]"
+                    onrightclick = "[GetScriptedGui('muscles_plus').Execute( GuiScope.SetRoot( Character.MakeScope ).End)]"
+                }
+                button_ignore = none
+
+                button_plus_small = {
+                    parentanchor = center
+                    alwaystransparent = yes
+                }
+            }
+
+            widget = {
+                size = { 15 0 }
+            }
+
+            button_replace = {
+                button_ignore = none
+                block "reset" {
+                    onclick = "[GetScriptedGui('reset_muscles').Execute( GuiScope.SetRoot( Character.MakeScope ).End)]"
+                    onrightclick = "[GetScriptedGui('reset_muscles').Execute( GuiScope.SetRoot( Character.MakeScope ).End)]"
+                    enabled = "[GetScriptedGui('reset_muscles').IsValid( GuiScope.SetRoot( Character.MakeScope ).End)]"
+                }
+                tooltip = "reset"
+            }
+        }
+    }
+}

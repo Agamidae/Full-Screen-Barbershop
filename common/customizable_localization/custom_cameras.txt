@@ -1,0 +1,34 @@
+﻿camera_angle = {
+	type = character
+	text = {
+		trigger = { NOT = { exists = var:rotation } }
+		localization_key = "0"
+	}
+	text = {
+		localization_key = "[ROOT.Var('rotation').GetValue|0]"
+	}
+}
+
+zoom_level = {
+	type = character
+	text = {
+		trigger = { NOT = { exists = var:zoom } }
+		localization_key = "camera"
+	}
+	text = {
+		trigger = { var:zoom = 0 }
+		localization_key = camera_zoom_out
+	}
+	text = {
+		trigger = { var:zoom = 1 }
+		localization_key = camera_full_body
+	}
+	text = {
+		trigger = { var:zoom = 2 }
+		localization_key = camera
+	}
+	text = {
+		trigger = { var:zoom = 3 }
+		localization_key = camera_head
+	}
+}
