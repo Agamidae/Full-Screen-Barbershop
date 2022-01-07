@@ -1,6 +1,4 @@
-
-
-toggle = {
+﻿toggle = {
 	if = {
 		limit = { has_variable = $var$ }
 		remove_variable = $var$
@@ -10,6 +8,7 @@ toggle = {
 	}
 }
 
+#could've probable done this better through flags
 double_toggle = {
 	if = {
 		limit = { has_variable = $var$ }
@@ -21,6 +20,19 @@ double_toggle = {
 			limit = { has_variable = $var2$ }
 			remove_variable = $var2$
 		}
+	}
+}
+
+triple_toggle = {
+	if = {
+		limit = { has_variable = $var$ }
+		remove_variable = $var$
+
+	}
+	else = {
+		set_variable = $var$
+		remove_variable = $var2$
+		remove_variable = $var3$
 	}
 }
 

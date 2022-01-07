@@ -37,11 +37,11 @@ types BigPortraits
 
 			blockoverride "portrait_button"
 			{
-				portrait_texture = "[PortraitCustomizationWindow.GetPortraitTexture(GetVariableSystem.Get('environment'), Concatenate(GetPlayer.Custom('zoom_level'), Character.Custom('camera_angle')), Concatenate( GetVariableSystem.Get( Character.GetFullNameNoTooltip ), AddTextIf( Not( GetVariableSystem.Exists( Character.GetFullNameNoTooltip )), 'idle' )), PdxGetWidgetScreenSize(PdxGuiWidget.Self))]"
+				portrait_texture = "[PortraitCustomizationWindow.GetPortraitTexture(GetVariableSystem.Get('environment'), Concatenate(GetPlayer.Custom('zoom_level'), Character.Custom('camera_angle')), Concatenate( AddTextIf( Character.MakeScope.Var('barber_pose').IsSet,  Character.MakeScope.Var('barber_pose').GetFlagName), AddTextIf( Not( Character.MakeScope.Var('barber_pose').IsSet), 'idle' )), PdxGetWidgetScreenSize(PdxGuiWidget.Self))]"
 			}
 
 			# text_single = {
-			# 	text = "[GetVariableSystem.Get('pose')]"
+			# 	text = "[Concatenate( AddTextIf( Character.MakeScope.Var('barber_pose').IsSet,  Character.MakeScope.Var('barber_pose').GetFlagName), AddTextIf( Not( Character.MakeScope.Var('barber_pose').IsSet), 'idle' ))]"
 			# 	fontsize = 50
 			# 	default_format = "#high"
 			# 	parentanchor = center
@@ -49,7 +49,7 @@ types BigPortraits
 		}
 
 		portrait_controls = {
-			size = { 300 90% }
+			size = { 350 90% }
 		}
 	}
 
@@ -61,12 +61,12 @@ types BigPortraits
 		portrait_full = {
 			blockoverride "portrait_button"
 			{
-				portrait_texture = "[Character.GetAnimatedPortrait(GetVariableSystem.Get('environment'), Concatenate(GetPlayer.Custom('zoom_level'), Character.Custom('camera_angle')), Concatenate( GetVariableSystem.Get( Character.GetFullNameNoTooltip ), AddTextIf( Not( GetVariableSystem.Exists( Character.GetFullNameNoTooltip )), 'idle' )), PdxGetWidgetScreenSize(PdxGuiWidget.Self))]"
+				portrait_texture = "[Character.GetAnimatedPortrait(GetVariableSystem.Get('environment'), Concatenate(GetPlayer.Custom('zoom_level'), Character.Custom('camera_angle')), Concatenate( AddTextIf( Character.MakeScope.Var('barber_pose').IsSet,  Character.MakeScope.Var('barber_pose').GetFlagName), AddTextIf( Not( Character.MakeScope.Var('barber_pose').IsSet), 'idle' )), PdxGetWidgetScreenSize(PdxGuiWidget.Self))]"
 			}
 		}
 
 		portrait_controls = {
-			size = { 300 90% }
+			size = { 350 90% }
 		}
 	}
 
@@ -240,20 +240,31 @@ types BigPortraits
 				alpha = 0.7
 
 				button_icon = {
+					onmousehierarchyenter = "[PdxGuiTriggerAllAnimations('rotation_tt')]"
+					onmousehierarchyleave = "[PdxGuiTriggerAllAnimations('rotation_tt_hide')]"
 					texture = "gfx/interface/icons/flat_icons/arrow.dds"
 
 					mirror = horizontal
 					scale = 2
+					button_ignore = none
 
 					datacontext = "[GetScriptedGui('rotate_portrait_left')]"
 					onclick = "[ScriptedGui.Execute( GuiScope.SetRoot( Character.MakeScope ).End)]"
+					onrightclick = "[ScriptedGui.Execute( GuiScope.SetRoot( Character.MakeScope ).End)]"
+					onrightclick = "[ScriptedGui.Execute( GuiScope.SetRoot( Character.MakeScope ).End)]"
 				}
 
 				button_icon = {
 					texture = "gfx/interface/icons/flat_icons/arrow.dds"
+					onmousehierarchyenter = "[PdxGuiTriggerAllAnimations('rotation_tt')]"
+					onmousehierarchyleave = "[PdxGuiTriggerAllAnimations('rotation_tt_hide')]"
 
 					datacontext = "[GetScriptedGui('rotate_portrait_right')]"
 					onclick = "[ScriptedGui.Execute( GuiScope.SetRoot( Character.MakeScope ).End)]"
+
+					button_ignore = none
+					onrightclick = "[ScriptedGui.Execute( GuiScope.SetRoot( Character.MakeScope ).End)]"
+					onrightclick = "[ScriptedGui.Execute( GuiScope.SetRoot( Character.MakeScope ).End)]"
 
 					parentanchor = right
 					scale = 2
@@ -277,7 +288,7 @@ types BigPortraits
 				position = { 0 -10 }
 
 				block "shadow" {
-					visible = no
+					visible = "[LessThan_CFixedPoint(GetPlayer.MakeScope.Var('zoom').GetValue, '(CFixedPoint)2'))]"
 				}
 
 				button_icon = {
@@ -295,7 +306,7 @@ types BigPortraits
 				button_icon = {
 					texture = "gfx/shadow.dds"
 					size = { 70 40 }
-					alpha = 0.2
+					alpha = 0.7
 					visible = no
 					name = "show shadow"
 

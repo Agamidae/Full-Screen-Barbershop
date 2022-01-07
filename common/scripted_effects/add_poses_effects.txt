@@ -1,0 +1,60 @@
+﻿# creates a sublist and adds a pose to it
+# add_pose = { list = my_poses pose = pose_1 }
+add_pose_to_list = {
+	# add the pose to a sublist
+	add_to_global_variable_list = {
+		name = $list$_poses_list
+		target = flag:$pose$
+	}
+	# add the sublist to the big list
+	if = {
+		limit = {
+			NOT = {
+				is_target_in_global_variable_list = {
+					name = pose_categories
+					target = flag:$list$_poses_list
+				}
+			}
+		}
+		add_to_global_variable_list = {
+			name = pose_categories
+			target = flag:$list$_poses_list
+		}
+	}
+	#this prevent errors about variable being set but not used
+	if = {
+		limit = { exists = flag:$pose$ }
+	}
+	# if = {
+	# 	limit = { exists = flag:$list$_poses_list }
+	# }
+}
+
+# simpler, adds a pose directly to "New" list
+# add_pose = { pose = pose_1 }
+add_pose = {
+	add_to_global_variable_list = {
+		name = new_poses_list
+		target = flag:$pose$
+	}
+	if = {
+		limit = {
+			NOT = {
+				is_target_in_global_variable_list = {
+					name = pose_categories
+					target = flag:new_poses_list
+				}
+			}
+		}
+		add_to_global_variable_list = {
+			name = pose_categories
+			target = flag:new_poses_list
+		}
+	}
+	if = {
+		limit = { exists = flag:$pose$ }
+	}
+	# if = {
+	# 	limit = { exists = flag:new_poses_list }
+	# }
+}

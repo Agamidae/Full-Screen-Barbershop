@@ -29,6 +29,10 @@ zoom_level = {
 	}
 	text = {
 		trigger = { var:zoom = 3 }
+		localization_key = camera_bust
+	}
+	text = {
+		trigger = { var:zoom = 4 }
 		localization_key = camera_head
 	}
 }

@@ -22,51 +22,6 @@
 	}
 }
 
-# zoom0 = {
-# 	scope = character
-#
-# 	is_shown = {
-# 		has_variable = zoom
-# 		var:zoom = 0
-# 	}
-# }
-#
-# zoom1 = {
-# 	scope = character
-#
-# 	is_shown = {
-# 		has_variable = zoom
-# 		var:zoom = 1
-# 	}
-# }
-#
-#
-# zoom2 = {
-# 	scope = character
-#
-# 	is_shown = {
-# 		OR = {
-# 			NOT = {
-# 				has_variable = zoom
-# 			}
-# 			AND = {
-# 				has_variable = zoom
-# 				var:zoom = 2
-# 			}
-# 		}
-# 	}
-# }
-#
-# zoom3 = {
-# 	scope = character
-#
-# 	is_shown = {
-# 		has_variable = zoom
-# 		var:zoom = 3
-# 	}
-# }
-
-
 zoom_in = {
 	scope = character
 
@@ -77,7 +32,7 @@ zoom_in = {
 			}
 			AND = {
 				has_variable = zoom
-				var:zoom < 3
+				var:zoom < 4
 			}
 		}
 	}
@@ -148,7 +103,7 @@ rotate_portrait_left = {
 		}
 		if = {
 			limit = {
-				var:rotation = -150
+				var:rotation = -165
 			}
 			set_variable = {
 				name = rotation
@@ -158,7 +113,7 @@ rotate_portrait_left = {
 		else = {
 			change_variable = {
 				name = rotation
-				add = -30
+				add = -15
 			}
 		}
 	}
@@ -183,134 +138,17 @@ rotate_portrait_right = {
 			}
 			set_variable = {
 				name = rotation
-				value = -150
+				value = -165
 			}
 		}
 		else = {
 			change_variable = {
 				name = rotation
-				add = 30
+				add = 15
 			}
 		}
 	}
 }
-
-# portrait_rotation-5 = {
-# 	scope = character
-#
-# 	is_shown = {
-# 		has_variable = rotation
-# 		var:rotation = -5
-# 	}
-# }
-#
-# portrait_rotation-4 = {
-# 	scope = character
-#
-# 	is_shown = {
-# 		has_variable = rotation
-# 		var:rotation = -4
-# 	}
-# }
-#
-# portrait_rotation-3 = {
-# 	scope = character
-#
-# 	is_shown = {
-# 		has_variable = rotation
-# 		var:rotation = -3
-# 	}
-# }
-#
-# portrait_rotation-2 = {
-# 	scope = character
-#
-# 	is_shown = {
-# 		has_variable = rotation
-# 		var:rotation = -2
-# 	}
-# }
-#
-# portrait_rotation-1 = {
-# 	scope = character
-#
-# 	is_shown = {
-# 		has_variable = rotation
-# 		var:rotation = -1
-# 	}
-# }
-
-# portrait_rotation = {
-# 	scope = character
-#
-# 	is_shown = {
-# 		OR = {
-# 			NOT = {
-# 				has_variable = rotation
-# 			}
-# 			AND = {
-# 				has_variable = rotation
-# 				var:rotation = 0
-# 			}
-# 		}
-# 	}
-# }
-#
-# portrait_rotation+1 = {
-# 	scope = character
-#
-# 	is_shown = {
-# 		has_variable = rotation
-# 		var:rotation = 1
-# 	}
-# }
-#
-# portrait_rotation+2 = {
-# 	scope = character
-#
-# 	is_shown = {
-# 		has_variable = rotation
-# 		var:rotation = 2
-# 	}
-# }
-#
-# portrait_rotation+3 = {
-# 	scope = character
-#
-# 	is_shown = {
-# 		has_variable = rotation
-# 		var:rotation = 3
-# 	}
-# }
-#
-# portrait_rotation+4 = {
-# 	scope = character
-#
-# 	is_shown = {
-# 		has_variable = rotation
-# 		var:rotation = 4
-# 	}
-# }
-#
-# portrait_rotation+5 = {
-# 	scope = character
-#
-# 	is_shown = {
-# 		has_variable = rotation
-# 		var:rotation = 5
-# 	}
-# }
-#
-# portrait_rotation+6 = {
-# 	scope = character
-#
-# 	is_shown = {
-# 		has_variable = rotation
-# 		var:rotation = 6
-# 	}
-# }
-
-#####
 
 refresh_characters = {
 	scope = character
@@ -331,6 +169,18 @@ refresh_characters = {
 				has_variable_list = barber_characters
 			}
 			clear_variable_list = barber_characters
+		}
+
+		# a fix for the older version, can probably remove later
+		scope:character = {
+			if = {
+				limit = {
+					exists = var:rotation
+					var:rotation >= -6
+					var:rotation <= 6
+				}
+				remove_variable = rotation
+			}
 		}
 
 		every_pinned_character = {
@@ -381,16 +231,137 @@ refresh_characters = {
 			target = scope:character
 		}
 
+		every_in_list = {
+			variable = barber_characters
+			if = {
+				limit = {
+					exists = var:rotation
+					var:rotation >= -6
+					var:rotation <= 6
+				}
+				remove_variable = rotation
+			}
+		}
+
+		if = {
+			limit = { exists = scope:character.primary_heir }
+			scope:character.primary_heir = {
+				if = {
+					limit = {
+						exists = var:rotation
+						var:rotation >= -6
+						var:rotation <= 6
+					}
+					remove_variable = rotation
+				}
+			}
+		}
+
+		if = {
+			limit = { exists = scope:character.primary_spouse }
+			scope:character.primary_spouse = {
+				if = {
+					limit = {
+						exists = var:rotation
+						var:rotation >= -6
+						var:rotation <= 6
+					}
+					remove_variable = rotation
+				}
+			}
+		}
+
+		if = {
+			limit = { exists = scope:character.betrothed }
+			scope:character.betrothed = {
+				if = {
+					limit = {
+						exists = var:rotation
+						var:rotation >= -6
+						var:rotation <= 6
+					}
+					remove_variable = rotation
+				}
+			}
+		}
+
 		clean_portrait_slots = yes
+	}
+}
+
+reset_rotation = {
+	scope = character
+
+	saved_scopes = {
+		character
+	}
+
+	effect = {
+		# a fix for the older version, can probably remove later
+		scope:character = {
+			if = {
+				limit = { exists = var:rotation }
+				remove_variable = rotation
+			}
+		}
+
+		every_pinned_character = {
+			limit = {
+				NOT = {
+					this = scope:character
+				}
+				is_alive = yes
+			}
+			if = {
+				limit = { exists = var:rotation }
+				remove_variable = rotation
+			}
+		}
+
+		if = {
+			limit = { exists = scope:character.primary_heir }
+			scope:character.primary_heir = {
+				if = {
+					limit = { exists = var:rotation }
+					remove_variable = rotation
+				}
+			}
+		}
+
+		if = {
+			limit = { exists = scope:character.primary_spouse }
+			scope:character.primary_spouse = {
+				if = {
+					limit = { exists = var:rotation }
+					remove_variable = rotation
+				}
+			}
+		}
+
+		if = {
+			limit = { exists = scope:character.betrothed }
+			scope:character.betrothed = {
+				if = {
+					limit = { exists = var:rotation }
+					remove_variable = rotation
+				}
+			}
+		}
 	}
 }
 
 add_to_barber_simple = {
 	scope = character
 
-	is_valid = { # juuust in case
+	is_valid = {
 		scope:character = {
 			is_alive = yes
+		}
+		NOT = {
+			is_target_in_variable_list = {
+				name = added_to_barber
+				target = scope:character
+			}
 		}
 	}
 
@@ -454,6 +425,12 @@ add_to_barber = {
 		}
 		scope:character = {
 			is_alive = yes
+			NOT = {
+				is_target_in_variable_list = {
+					name = added_to_barber
+					target = scope:character
+				}
+			}
 		}
 	}
 
@@ -576,31 +553,6 @@ clear_all = {
 	}
 }
 
-# age_controls_0 = {
-# 	scope = character
-#
-# 	is_shown = {
-# 		age < 5
-# 	}
-# }
-#
-# age_controls_8 = {
-# 	scope = character
-#
-# 	is_shown = {
-# 		age >= 5
-# 		age < 10
-# 	}
-# }
-#
-# age_controls_16 = {
-# 	scope = character
-#
-# 	is_shown = {
-# 		age >= 10
-# 	}
-# }
-
 any_pinned = {
 	scope = character
 
@@ -622,10 +574,139 @@ clear_poses = {
 	effect = {
 		every_in_list = {
 			variable = barber_characters
-			clear_poses = yes
+			remove_variable = barber_pose
 		}
 		scope:character = {
-			clear_poses = yes
+			remove_variable = barber_pose
+		}
+
+		if = {
+			limit = {
+				exists = scope:character.primary_heir
+				scope:character.primary_heir = {
+					has_variable = barber_pose
+				}
+			}
+			scope:character.primary_heir = {
+				remove_variable = barber_pose
+			}
+		}
+
+		if = {
+			limit = {
+				exists = scope:character.primary_spouse
+				scope:character.primary_spouse = {
+					has_variable = barber_pose
+				}
+			}
+			scope:character.primary_spouse = {
+				remove_variable = barber_pose
+			}
+		}
+
+		if = {
+			limit = {
+				exists = scope:character.betrothed
+				scope:character.betrothed = {
+					has_variable = barber_pose
+				}
+			}
+			scope:character.betrothed = {
+				remove_variable = barber_pose
+			}
 		}
 	}
 }
+
+
+bigger_text_size_barber = {
+    scope = character
+
+    is_valid = {
+        trigger_if = {
+            limit = { exists = var:barber_text_size }
+            var:barber_text_size < 5
+        }
+    }
+
+    effect = {
+        if = {
+            limit = {
+                NOT = { has_variable = barber_text_size }
+            }
+            set_variable = {
+                name = barber_text_size
+                value = 1
+            }
+        }
+        change_variable = {
+            name = barber_text_size
+            add = 0.1
+        }
+    }
+}
+
+smaller_text_size_barber = {
+    scope = character
+
+    is_valid = {
+        trigger_if = {
+            limit = { exists = var:barber_text_size }
+            var:barber_text_size > 0.1
+        }
+    }
+
+    effect = {
+        if = {
+            limit = {
+                NOT = { has_variable = barber_text_size }
+            }
+            set_variable = {
+                name = barber_text_size
+                value = 1
+            }
+        }
+        change_variable = {
+            name = barber_text_size
+            add = -0.1
+        }
+    }
+}
+
+reset_text_size_barber = {
+    scope = character
+
+    is_valid = {
+        exists = var:barber_text_size
+		NOT = {
+			var:barber_text_size = 1
+		}
+    }
+
+    effect = {
+        set_variable = {
+			name = barber_text_size
+			value = 1
+	    }
+	}
+}
+
+edit_text_barber = {
+	scope = character
+
+	effect = {
+		trigger_event = custom_text_barber.1
+	}
+}
+
+# clear_old_poses = {
+# 	scope = character
+#
+# 	effect = {
+# 		every_in_list = {
+# 			variable = barber_characters
+# 			clear_poses = yes
+# 		}
+# 		clear_poses = yes
+# 	}
+# }

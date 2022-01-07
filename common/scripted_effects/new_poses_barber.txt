@@ -1,6 +1,0 @@
-add_pose = {
-	add_to_global_variable_list = {
-		name = barber_poses
-		target = flag:$pose$
-	}
-}

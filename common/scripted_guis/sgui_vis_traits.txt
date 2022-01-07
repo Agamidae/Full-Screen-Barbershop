@@ -1,4 +1,4 @@
-dwarfism = {
+﻿dwarfism = {
 	scope = character
 
 	effect = {
@@ -30,15 +30,6 @@ beauty = {
 	effect = {
 		double_toggle = { var = beauty var2 = ugly }
 	}
-	# is_valid = {
-	# 	NOT = {
-	# 		OR = {
-	# 			has_trait = beauty_good_1
-	# 			has_trait = beauty_good_2
-	# 			has_trait = beauty_good_3
-	# 		}
-	# 	}
-	# }
 	is_shown = {
 		OR = {
 			exists = var:beauty
@@ -314,7 +305,7 @@ disfigured = {
 	scope = character
 
 	effect = {
-		toggle = { var = disfigured }
+		triple_toggle = { var = disfigured var2 = one_eyed var3 = blind }
 	}
 	is_shown = {
 		OR = {
@@ -327,7 +318,7 @@ blind = {
 	scope = character
 
 	effect = {
-		toggle = { var = blind }
+		triple_toggle = { var = blind var2 = one_eyed var3 = disfigured }
 	}
 	is_shown = {
 		OR = {
@@ -336,11 +327,11 @@ blind = {
 		}
 	}
 }
-one_eyed = {
+one_eyed = {#
 	scope = character
 
 	effect = {
-		toggle = { var = one_eyed }
+		triple_toggle = { var = one_eyed var2 = blind var3 = disfigured }
 	}
 	is_shown = {
 		OR = {
@@ -416,7 +407,6 @@ muscles_minus = {
             limit = { exists = var:muscles }
             var:muscles > 0
         }
-		#debug_only = no
     }
 
 
@@ -463,7 +453,6 @@ weight_plus = {
             limit = { exists = var:weight }
             var:weight < 0.95
         }
-		#debug_only = no
     }
 
     effect = {
@@ -496,7 +485,6 @@ weight_minus = {
             limit = { exists = var:weight }
             var:weight > -1
         }
-		#debug_only = no
     }
 
     effect = {

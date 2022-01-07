@@ -1,5 +1,6 @@
 types BarberTraitTypes {
     type muscles = vbox {
+        visible = "[GetVariableSystem.Exists('unrealistic_options')]"
         margin_bottom = -10
         spacing = 3
         # layoutpolicy_vertical = expanding

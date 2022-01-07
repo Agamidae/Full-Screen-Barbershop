@@ -1,0 +1,3 @@
+﻿fullscreen_barbershop = {
+	always = yes
+}

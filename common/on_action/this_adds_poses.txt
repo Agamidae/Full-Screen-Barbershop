@@ -1,0 +1,100 @@
+﻿# to add your own, don't overwrite this file
+# create a new one with this to append them:
+
+# new_poses_on_action = {
+# 	on_actions = {
+# 		my_poses
+# 	}
+# }
+#
+# my_poses = {
+# 	effect = {
+#		add_pose = { pose = pose_1 }
+# 	}
+# }
+
+# or use this effect to add to a specific category:
+# add_pose_to_list = { list = my pose = admiration_barber }
+
+# if you're adding a new category, add this to your effect, in case you remove any poses, to clear the list:
+# clear_global_variable_list = my_poses_list
+
+
+new_poses_on_action = {
+	on_actions = {
+		emotion_poses
+	}
+}
+
+emotion_poses = {
+	effect = {
+		add_pose_to_list = { list = frontend pose = frontend_left_idle_barber }
+		add_pose_to_list = { list = frontend pose = frontend_center_idle_barber }
+		add_pose_to_list = { list = frontend pose = frontend_right_idle_barber }
+
+		add_pose_to_list = { list = council pose = chancellor_barber }
+		if = {
+			limit = { has_dlc_feature = the_northern_lords }
+			add_pose_to_list = { list = council pose = chancellor_fp1_barber }
+		}
+		add_pose_to_list = { list = council pose = steward_barber }
+		add_pose_to_list = { list = council pose = marshal_barber }
+		if = {
+			limit = { has_dlc_feature = the_northern_lords }
+			add_pose_to_list = { list = council pose = marshal_fp1_barber }
+		}
+		add_pose_to_list = { list = council pose = spymaster_barber }
+		if = {
+			limit = { has_dlc_feature = the_northern_lords }
+			add_pose_to_list = { list = council pose = spymaster_fp1_barber }
+		}
+		add_pose_to_list = { list = council pose = chaplain_barber }
+
+		add_pose_to_list = { list = misc pose = war_defender_barber }
+		add_pose_to_list = { list = misc pose = newborn_barber }
+		# add_pose_to_list = { list = misc pose = pregnant_barber }
+		add_pose_to_list = { list = misc pose = severelywounded_barber }
+		add_pose_to_list = { list = misc pose = prisonhouse_barber }
+		add_pose_to_list = { list = misc pose = prisondungeon_barber }
+		add_pose_to_list = { list = misc pose = poison_barber }
+		add_pose_to_list = { list = misc pose = sick_barber }
+
+		add_pose_to_list = { list = emotions pose = admiration_barber }
+		add_pose_to_list = { list = emotions pose = anger_barber }
+		add_pose_to_list = { list = emotions pose = beg_barber }
+		add_pose_to_list = { list = emotions pose = boredom_barber }
+		add_pose_to_list = { list = emotions pose = disapproval_barber }
+		add_pose_to_list = { list = emotions pose = disbelief_barber }
+		add_pose_to_list = { list = emotions pose = disgust_barber }
+		add_pose_to_list = { list = emotions pose = dismissal_barber }
+		add_pose_to_list = { list = emotions pose = fear_barber }
+		add_pose_to_list = { list = emotions pose = flirtation_barber }
+		add_pose_to_list = { list = emotions pose = flirtation_left_barber }
+		add_pose_to_list = { list = emotions pose = grief_barber }
+		add_pose_to_list = { list = emotions pose = happiness_barber }
+		add_pose_to_list = { list = emotions pose = sadness_barber }
+		add_pose_to_list = { list = emotions pose = shame_barber }
+		add_pose_to_list = { list = emotions pose = shock_barber }
+		add_pose_to_list = { list = emotions pose = pain_barber }
+		add_pose_to_list = { list = emotions pose = paranoia_barber }
+		add_pose_to_list = { list = emotions pose = schadenfreude_barber }
+		add_pose_to_list = { list = emotions pose = scheme_barber }
+		add_pose_to_list = { list = emotions pose = stress_barber }
+		add_pose_to_list = { list = emotions pose = worry_barber }
+
+		add_pose_to_list = { list = personality pose = personality_bold_barber }
+		add_pose_to_list = { list = personality pose = personality_coward_barber }
+		add_pose_to_list = { list = personality pose = personality_content_barber }
+		add_pose_to_list = { list = personality pose = personality_greedy_barber }
+		add_pose_to_list = { list = personality pose = personality_compassionate_barber }
+		add_pose_to_list = { list = personality pose = personality_callous_barber }
+		add_pose_to_list = { list = personality pose = personality_forgiving_barber }
+		add_pose_to_list = { list = personality pose = personality_vengeful_barber }
+		add_pose_to_list = { list = personality pose = personality_honorable_barber }
+		add_pose_to_list = { list = personality pose = personality_dishonorable_barber }
+		add_pose_to_list = { list = personality pose = personality_rational_barber }
+		add_pose_to_list = { list = personality pose = personality_irrational_barber }
+		add_pose_to_list = { list = personality pose = personality_zealous_barber }
+		add_pose_to_list = { list = personality pose = personality_cynical_barber }
+	}
+}

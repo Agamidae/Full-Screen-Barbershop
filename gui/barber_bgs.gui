@@ -1,621 +1,4 @@
 # greenscreens are in the customization window
-
-types FBTypes {
-	type button_FB_list = button_normal
-	{
-		texture = "gfx/interface/buttons/button_standard.dds"
-		size = { 200 33 }
-		gfxtype = togglepushbuttongfx
-		effectname = "NoHighlight"
-
-		upframe = 1
-		uphoverframe = 2
-		uppressedframe = 3
-		downframe = 4
-		downhoverframe = 4
-		downpressedframe = 4
-		disableframe = 7
-
-		spriteType = Corneredtiled
-		spriteborder = { 3 3 }
-		framesize = { 249 78 }
-
-		buttonText = {
-			text_single = {
-				size = { 100% 100% }
-				autoresize = no
-				margin = { 10 0 }
-				block "margin" {}
-				align = nobaseline
-				default_format = "#clickable"
-				max_width = 170
-			}
-		}
-		block "bg_preview" {
-		}
-
-		modify_texture = {
-			name = "overlay"
-			texture = "gfx/interface/buttons/button_standard_overlay.dds"
-			spriteType = Corneredstretched
-			spriteborder = { 3 3 }
-			blend_mode = overlay
-			alpha = 0.3
-		}
-
-		block "disabled"
-		{
-			highlight_icon = {
-				size = { 100% 100% }
-				gfxtype = togglepushbuttongfx
-				effectname = "NoHighlight"
-				texture = "gfx/interface/buttons/button_disabled_stripes.dds"
-				spriteType = Corneredtiled
-				spriteborder = { 2 2 }
-				framesize	= { 238 63 }
-
-				upframe = 1
-				uphoverframe = 1
-				uppressedframe = 1
-				downframe = 1
-				downhoverframe = 1
-				downpressedframe = 1
-				disableframe = 2
-
-				alpha = 0.4
-
-				modify_texture = {
-					name = "overlay"
-					texture = "gfx/interface/buttons/button_standard_overlay.dds"
-					spriteType = Corneredstretched
-					spriteborder = { 3 3 }
-					blend_mode = overlay
-				}
-
-				block "button_standard_mouseover" {}
-			}
-		}
-
-		highlight_icon = {
-			size = { 100% 100% }
-			gfxtype = togglepushbuttongfx
-			effectname = "NoHighlight"
-			texture = "gfx/interface/buttons/button_mouseover.dds"
-			spriteType = Corneredstretched
-			spriteborder = { 20 20 }
-			framesize	= { 238 63 }
-
-			upframe = 1
-			uphoverframe = 2
-			uppressedframe = 1
-			downframe = 1
-			downhoverframe = 1
-			downpressedframe = 1
-			disableframe = 1
-
-			alpha = 0.5
-
-			block "button_standard_mouseover" {}
-		}
-
-		margin_widget = {
-			size = { 100% 100% }
-			margin = { 3 3 }
-
-			block "vignette"
-			{
-				icon = {
-					name = "vignette"
-					size = { 100% 100% }
-					alpha = 0.2
-					texture = "gfx/interface/component_masks/mask_vignette.dds"
-					color = { 0.15 0.15 0.15 1 }
-				}
-			}
-		}
-	}
-
-	type trait_button = button_FB_list {
-		down = "[ScriptedGui.IsShown( GuiScope.SetRoot( Character.MakeScope ).End)]"
-		onclick = "[ScriptedGui.Execute( GuiScope.SetRoot( Character.MakeScope ).End)]"
-		# enabled = "[ScriptedGui.IsValid( GuiScope.SetRoot( Character.MakeScope ).End)]"
-
-		icon = {
-			parentanchor = right
-			size = { 33 33 }
-			block "icon" {
-			}
-		}
-	}
-
-	type bg_button = button_FB_list {
-
-		size = { 175 33 }
-		allow_outside = yes
-
-		onclick = "[PdxGuiTriggerAllAnimations('hide_bg')]"
-		# onrightclick = "[PdxGuiTriggerAllAnimations('hide_bg')]"
-		# tooltip = "right_click_light"
-		# button_ignore = none
-		blockoverride "bg_preview" {
-			block "picture_highlight" {
-				onmousehierarchyleave = "[PdxGuiWidget.FindChild('picture').TriggerAnimation('dehighlight')]"
-				onmousehierarchyenter = "[PdxGuiWidget.FindChild('picture').TriggerAnimation('highlight')]"
-			}
-
-			block "default" {
-			}
-
-			icon = {
-				parentanchor = right
-				size = { 45% 100% }
-
-				name = "picture"
-				alpha = 0.6
-				state = {
-					name = highlight
-					alpha = 1
-				}
-				state = {
-					name = dehighlight
-					alpha = 0.6
-				}
-				background = {
-					block "picture" {
-
-					}
-					using = Mask_Rough_Edges
-					fittype = centercrop
-					modify_texture = {
-						texture = "gfx/interface/component_masks/mask_fade_horizontal_extended.dds"
-						blend_mode = alphamultiply
-						rotate_uv = 3
-					}
-				}
-			}
-		}
-
-		button = {
-			block "light" {
-				visible = no
-			}
-			tooltip = "lighting"
-
-			button_icon = {
-				texture = "gfx/sun_filled.png"
-				parentanchor = center
-				size = { 20 20 }
-				alwaystransparent = yes
-			}
-			alpha = 0.9
-			size = { 30 30 }
-			position = { 30 0 }
-			parentanchor = right|vcenter
-			onmousehierarchyenter = "[PdxGuiWidget.TriggerAnimation('show')]"
-			onmousehierarchyleave = "[PdxGuiWidget.TriggerAnimation('hide')]"
-		}
-	}
-
-	type button_category = button {
-		size = { 100% 30 }
-
-		background = {
-            texture = "gfx/interface/component_tiles/background_area_light.dds"
-            texture_density = 1
-
-			using = Mask_Rough_Edges
-			margin = { 10 1 }
-            modify_texture = {
-                name = "mask"
-                texture = "gfx/interface/component_masks/mask_fade_horizontal_middle_thick.dds"
-                spriteType = Corneredstretched
-                spriteborder = { 0 0 }
-                blend_mode = alphamultiply
-            }
-        }
-
-
-		hbox = {
-			layoutpolicy_horizontal = expanding
-			spacing = 5
-			button_expand = {
-				size = { 22 22 }
-				alwaystransparent = yes
-				block "frame" {
-					visible = no
-					frame = "[Select_int32( GetVariableSystem.Exists('big_throneroom'), '(int32)1', '(int32)2')]"
-				}
-			}
-
-			button_checkbox = {
-				size = { 25 25 }
-				alwaystransparent = yes
-				block "check" {
-					visible = no
-				}
-			}
-
-			text_single = {
-				name = "category"
-				layoutpolicy_horizontal = expanding
-				max_width = 180
-				align = nobaseline
-				default_format = "#clickable"
-
-				block "text"
-				{
-					text = "test"
-				}
-			}
-		}
-	}
-
-	type traits_list = vbox {
-		spacing = 10
-
-		layoutpolicy_vertical = expanding
-		layoutpolicy_horizontal = expanding
-		scrollarea = {
-			layoutpolicy_vertical = expanding
-
-			scrollbarpolicy_horizontal = always_off
-			scrollbar_vertical = { using = Scrollbar_Vertical }
-
-			scrollwidget = {
-
-				flowcontainer = {
-					direction = vertical
-					parentanchor = hcenter
-					spacing = -2
-					ignoreinvisible = yes
-					# ignoreinvisible = yes
-
-					trait_button = {
-						text = "trait_beauty_good_2"
-						datacontext = "[GetScriptedGui('beauty')]"
-						blockoverride "icon" {
-							texture = "gfx/interface/icons/traits/beauty_good_2.dds"
-						}
-					}
-					trait_button = {
-						text = "trait_beauty_bad_2"
-						datacontext = "[GetScriptedGui('ugly')]"
-						blockoverride "icon" {
-							texture = "gfx/interface/icons/traits/beauty_bad_2.dds"
-						}
-					}
-					trait_button = {
-						text = "trait_drunkard"
-						datacontext = "[GetScriptedGui('drunkard')]"
-						blockoverride "icon" {
-							texture = "gfx/interface/icons/traits/drunkard.dds"
-						}
-					}
-
-					widget = {
-						size = { 0 12 }
-					}
-
-					trait_button = {
-						text = "trait_one_eyed"
-						datacontext = "[GetScriptedGui('one_eyed')]"
-						blockoverride "icon" {
-							texture = "gfx/interface/icons/traits/one_eyed.dds"
-						}
-					}
-					trait_button = {
-						text = "trait_blind"
-						datacontext = "[GetScriptedGui('blind')]"
-						blockoverride "icon" {
-							texture = "gfx/interface/icons/traits/blind.dds"
-						}
-					}
-					trait_button = {
-						text = "trait_disfigured"
-						datacontext = "[GetScriptedGui('disfigured')]"
-						blockoverride "icon" {
-							texture = "gfx/interface/icons/traits/disfigured.dds"
-						}
-					}
-
-					widget = {
-						size = { 0 12 }
-					}
-
-					flowcontainer = {
-						visible = no# "[InDebugMode]"
-						parentanchor = hcenter
-						margin_top = 0
-						margin_bottom = 10
-						spacing = 10
-						textbox = {
-							autoresize = yes
-							multiline = yes
-							text = "need_debug_mode"
-							layoutpolicy_horizontal = expanding
-							max_width = 180
-							align = center|nobaseline
-							# parentanchor = hcenter
-							tooltip = "need_debug_mode_tt"
-							fontcolor = { 1 0.65 1 0.7 }
-						}
-
-						icon = {
-							tintcolor = { 1 0.8 1 1 }
-							size = { 20 20 }
-							texture = "gfx/interface/icons/council_task_types/task_increase_control.dds"
-						}
-					}
-
-
-					flowcontainer = {
-						direction = vertical
-						spacing = -2
-						parentanchor = hcenter
-
-						# enabled = "[Not(InDebugMode)]"
-
-						trait_button = {
-							text = "trait_albino"
-							datacontext = "[GetScriptedGui('albino')]"
-							blockoverride "icon" {
-								texture = "gfx/interface/icons/traits/albino.dds"
-							}
-						}
-						trait_button = {
-							text = "trait_dwarf"
-							datacontext = "[GetScriptedGui('dwarfism')]"
-							blockoverride "icon" {
-								texture = "gfx/interface/icons/traits/dwarf.dds"
-							}
-						}
-						trait_button = {
-							text = "trait_giant"
-							datacontext = "[GetScriptedGui('gigantism')]"
-							blockoverride "icon" {
-								texture = "gfx/interface/icons/traits/giant.dds"
-							}
-						}
-						trait_button = {
-							text = "trait_spindly"
-							datacontext = "[GetScriptedGui('spindly')]"
-							blockoverride "icon" {
-								texture = "gfx/interface/icons/traits/spindly.dds"
-							}
-						}
-						trait_button = {
-							text = "trait_hunchbacked"
-							datacontext = "[GetScriptedGui('hunchbacked')]"
-							blockoverride "icon" {
-								texture = "gfx/interface/icons/traits/hunchbacked.dds"
-							}
-						}
-
-						widget = {
-							size = { 0 12 }
-						}
-
-
-						trait_button = {
-							text = "trait_maimed"
-							datacontext = "[GetScriptedGui('maimed_left_arm')]"
-							blockoverride "icon" {
-								texture = "gfx/interface/icons/traits/maimed.dds"
-							}
-						}
-						trait_button = {
-							text = "trait_one_legged"
-							datacontext = "[GetScriptedGui('no_left_leg')]"
-							blockoverride "icon" {
-								texture = "gfx/interface/icons/traits/one_legged.dds"
-							}
-						}
-						trait_button = {
-							text = "trait_clubfooted"
-							datacontext = "[GetScriptedGui('clubfooted')]"
-							blockoverride "icon" {
-								texture = "gfx/interface/icons/traits/clubfooted.dds"
-							}
-						}
-
-						widget = {
-							size = { 0 12 }
-						}
-
-						trait_button = {
-							text = "trait_ill"
-							datacontext = "[GetScriptedGui('illness')]"
-							blockoverride "icon" {
-								texture = "gfx/interface/icons/traits/ill.dds"
-							}
-						}
-						trait_button = {
-							text = "trait_consumption"
-							datacontext = "[GetScriptedGui('tuberculosis')]"
-							blockoverride "icon" {
-								texture = "gfx/interface/icons/traits/consumption.dds"
-							}
-						}
-
-						widget = {
-							size = { 0 12 }
-						}
-
-						trait_button = {
-							text = "trait_scarred"
-							datacontext = "[GetScriptedGui('scarred')]"
-							blockoverride "icon" {
-								texture = "gfx/interface/icons/traits/scarred.dds"
-							}
-						}
-						trait_button = {
-							text = "trait_wounded_1"
-							datacontext = "[GetScriptedGui('wounded_1')]"
-							blockoverride "icon" {
-								texture = "gfx/interface/icons/traits/wounded_1.dds"
-							}
-						}
-
-						widget = {
-							size = { 0 12 }
-						}
-						button_category = {
-							onclick = "[GetVariableSystem.Toggle('disturbing_traits')]"
-							blockoverride "text" {
-								text = "disturbing_traits"
-							}
-							blockoverride "frame" {
-								frame = "[Select_int32( GetVariableSystem.Exists('disturbing_traits'), '(int32)2', '(int32)1')]"
-							}
-						}
-
-						widget = {
-							size = { 0 12 }
-						}
-
-						flowcontainer = {
-							visible = "[GetVariableSystem.Exists('disturbing_traits')]"
-							direction = vertical
-							parentanchor = hcenter
-							spacing = -2
-
-							trait_button = {
-								text = "trait_wounded_2"
-								datacontext = "[GetScriptedGui('wounded_2')]"
-								blockoverride "icon" {
-									texture = "gfx/interface/icons/traits/wounded_2.dds"
-								}
-							}
-							trait_button = {
-								text = "trait_wounded_3"
-								datacontext = "[GetScriptedGui('wounded_3')]"
-								blockoverride "icon" {
-									texture = "gfx/interface/icons/traits/wounded_3.dds"
-								}
-							}
-							widget = {
-								size = { 0 12 }
-							}
-							trait_button = {
-								text = "trait_typhus"
-								datacontext = "[GetScriptedGui('typhus')]"
-								blockoverride "icon" {
-									texture = "gfx/interface/icons/traits/typhus.dds"
-								}
-							}
-							trait_button = {
-								text = "trait_lovers_pox"
-								datacontext = "[GetScriptedGui('lovers_pox')]"
-								blockoverride "icon" {
-									texture = "gfx/interface/icons/traits/lovers_pox.dds"
-								}
-							}
-							trait_button = {
-								text = "early_great_pox"
-								datacontext = "[GetScriptedGui('mild')]"
-								blockoverride "icon" {
-									texture = "gfx/interface/icons/traits/early_great_pox.dds"
-								}
-							}
-							trait_button = {
-								text = "trait_great_pox"
-								datacontext = "[GetScriptedGui('severe')]"
-								blockoverride "icon" {
-									texture = "gfx/interface/icons/traits/great_pox.dds"
-								}
-							}
-							trait_button = {
-								text = "trait_smallpox"
-								datacontext = "[GetScriptedGui('smallpox')]"
-								blockoverride "icon" {
-									texture = "gfx/interface/icons/traits/smallpox.dds"
-								}
-							}
-							trait_button = {
-								text = "trait_bubonic_plague"
-								datacontext = "[GetScriptedGui('bubonic_plague')]"
-								blockoverride "icon" {
-									texture = "gfx/interface/icons/traits/bubonic_plague.dds"
-								}
-							}
-							trait_button = {
-								text = "trait_scaly"
-								datacontext = "[GetScriptedGui('scaly')]"
-								blockoverride "icon" {
-									texture = "gfx/interface/icons/traits/scaly.dds"
-								}
-							}
-							trait_button = {
-								text = "trait_leper"
-								datacontext = "[GetScriptedGui('leprosy')]"
-								blockoverride "icon" {
-									texture = "gfx/interface/icons/traits/leper.dds"
-								}
-							}
-						}
-					}
-				}
-			}
-		}
-
-		muscles = {
-			blockoverride "text" {
-				text = "Weight"
-			}
-			blockoverride "value" {
-				# text = "[Character.MakeScope.Var('weight').GetValue|0]"
-				text = "[GuiScope.SetRoot( Character.MakeScope ).ScriptValue('barber_weight')|0%]"
-			}
-			# blockoverride "value2" {
-			# 	# text = "[Character.MakeScope.Var('weight').GetValue|0]"
-			# 	text = "[GuiScope.SetRoot( Character.MakeScope ).ScriptValue('current_weight_sval')|2]"
-			# }
-			blockoverride "minus" {
-				enabled = "[GetScriptedGui('weight_minus').IsValid( GuiScope.SetRoot( Character.MakeScope ).End)]"
-				onclick = "[GetScriptedGui('weight_minus').Execute( GuiScope.SetRoot( Character.MakeScope ).End)]"
-				onrightclick = "[GetScriptedGui('weight_minus').Execute( GuiScope.SetRoot( Character.MakeScope ).End)]"
-				onrightclick = "[GetScriptedGui('weight_minus').Execute( GuiScope.SetRoot( Character.MakeScope ).End)]"
-			}
-			blockoverride "plus" {
-				enabled = "[GetScriptedGui('weight_plus').IsValid( GuiScope.SetRoot( Character.MakeScope ).End)]"
-				onclick = "[GetScriptedGui('weight_plus').Execute( GuiScope.SetRoot( Character.MakeScope ).End)]"
-				onrightclick = "[GetScriptedGui('weight_plus').Execute( GuiScope.SetRoot( Character.MakeScope ).End)]"
-				onrightclick = "[GetScriptedGui('weight_plus').Execute( GuiScope.SetRoot( Character.MakeScope ).End)]"
-			}
-			blockoverride "reset" {
-				onclick = "[GetScriptedGui('reset_weight').Execute( GuiScope.SetRoot( Character.MakeScope ).End)]"
-				onrightclick = "[GetScriptedGui('reset_weight').Execute( GuiScope.SetRoot( Character.MakeScope ).End)]"
-				button_ignore = none
-				enabled = "[GetScriptedGui('reset_weight').IsValid( GuiScope.SetRoot( Character.MakeScope ).End)]"
-
-			}
-		}
-
-		muscles = {
-
-		}
-		widget = {
-			size = { 0 5 }
-		}
-		button_FB_list = {
-			text = "naked"
-			blockoverride "margin" {
-				margin_left = 40
-			}
-			datacontext = "[GetScriptedGui('undress')]"
-			onclick = "[ScriptedGui.Execute( GuiScope.SetRoot( Character.MakeScope ).End)]"
-			visible = "[ScriptedGui.IsValid( GuiScope.SetRoot( Character.MakeScope ).End)]"
-			button_checkbox = {
-				parentanchor = vcenter
-				position = { 3 0 }
-				checked = "[ScriptedGui.IsShown( GuiScope.SetRoot( Character.MakeScope ).End)]"
-				alpha = 0.6
-				alwaystransparent = yes
-			}
-		}
-	}
-}
-
 template "portrait_bgs"
 {
 	widget = {
@@ -1781,6 +1164,8 @@ template "portrait_bgs"
 
 template "bg_buttons"
 {
+	# I know, this should be redone, similar to poses
+	# next time
 	flowcontainer = {
 		direction = vertical
 		ignoreinvisible = yes
@@ -1804,13 +1189,13 @@ template "bg_buttons"
 			text = "none"
 			blockoverride "picture" {}
 			blockoverride "light" { onclick = "[GetVariableSystem.Set('environment', 'environment_body')]" }
-			onclick = "[GetVariableSystem.Set(AddTextIf(GetVariableSystem.Exists('lighting'), 'environment'), 'environment_body')]"
+			onclick = "[GetVariableSystem.Set(AddTextIf(Not(GetVariableSystem.Exists('lighting')), 'environment'), 'environment_body')]"
 		}
 		bg_button = {
 			text = "default"
 			onclick = "[PdxGuiTriggerAllAnimations('default_bg')]"
 			blockoverride "light" { onclick = "[GetVariableSystem.Set('environment', Illustration.GetEnvironment(Character.Self))]" }
-			onclick = "[GetVariableSystem.Set(AddTextIf(GetVariableSystem.Exists('lighting'), 'environment'), Illustration.GetEnvironment(Character.Self))]"
+			onclick = "[GetVariableSystem.Set(AddTextIf(Not(GetVariableSystem.Exists('lighting')), 'environment'), Illustration.GetEnvironment(Character.Self))]"
 
 			onmousehierarchyleave = "[PdxGuiWidget.FindChild('def_picture').TriggerAnimation('default_unhighlight')]"
 			onmousehierarchyenter = "[PdxGuiWidget.FindChild('def_picture').TriggerAnimation('default_highlight')]"
@@ -1841,6 +1226,10 @@ template "bg_buttons"
 					}
 				}
 			}
+		}
+
+		flowcontainer = {
+			using = cfp_bg_buttons
 		}
 
 		widget = {
@@ -1874,7 +1263,7 @@ template "bg_buttons"
 					texture = "gfx/interface/illustrations/main_menu/frontend_east.dds"
 				}
 				blockoverride "light" { onclick = "[GetVariableSystem.Set('environment', 'environment_frontend_east_main')]" }
-				onclick = "[GetVariableSystem.Set(AddTextIf(GetVariableSystem.Exists('lighting'), 'environment'), 'environment_frontend_east_main')]"
+				onclick = "[GetVariableSystem.Set(AddTextIf(Not(GetVariableSystem.Exists('lighting')), 'environment'), 'environment_frontend_east_main')]"
 			}
 			bg_button = {
 				text = "big_throneroom_india"
@@ -1884,7 +1273,7 @@ template "bg_buttons"
 					texture = "gfx/interface/illustrations/main_menu/frontend_india.dds"
 				}
 				blockoverride "light" { onclick = "[GetVariableSystem.Set('environment', 'environment_frontend_india_main')]" }
-				onclick = "[GetVariableSystem.Set(AddTextIf(GetVariableSystem.Exists('lighting'), 'environment'), 'environment_frontend_india_main')]"
+				onclick = "[GetVariableSystem.Set(AddTextIf(Not(GetVariableSystem.Exists('lighting')), 'environment'), 'environment_frontend_india_main')]"
 			}
 			bg_button = {
 				text = "big_throneroom_mediterranean"
@@ -1894,7 +1283,7 @@ template "bg_buttons"
 					texture = "gfx/interface/illustrations/main_menu/frontend_mediterranean.dds"
 				}
 				blockoverride "light" { onclick = "[GetVariableSystem.Set('environment', 'environment_frontend_mediterranean_main')]" }
-				onclick = "[GetVariableSystem.Set(AddTextIf(GetVariableSystem.Exists('lighting'), 'environment'), 'environment_frontend_mediterranean_main')]"
+				onclick = "[GetVariableSystem.Set(AddTextIf(Not(GetVariableSystem.Exists('lighting')), 'environment'), 'environment_frontend_mediterranean_main')]"
 			}
 			bg_button = {
 				text = "big_throneroom_tribal"
@@ -1904,7 +1293,7 @@ template "bg_buttons"
 					texture = "gfx/interface/illustrations/main_menu/frontend_tribal.dds"
 				}
 				blockoverride "light" { onclick = "[GetVariableSystem.Set('environment', 'environment_frontend_tribal_main')]" }
-				onclick = "[GetVariableSystem.Set(AddTextIf(GetVariableSystem.Exists('lighting'), 'environment'), 'environment_frontend_tribal_main')]"
+				onclick = "[GetVariableSystem.Set(AddTextIf(Not(GetVariableSystem.Exists('lighting')), 'environment'), 'environment_frontend_tribal_main')]"
 			}
 			flowcontainer = {
 				min_width = 200
@@ -1921,7 +1310,7 @@ template "bg_buttons"
 						texture = "gfx/interface/illustrations/main_menu/fp1_frontend_tribal.dds"
 					}
 					blockoverride "light" { onclick = "[GetVariableSystem.Set('environment', 'environment_event_fp1_throneroom_tribal')]" }
-					onclick = "[GetVariableSystem.Set(AddTextIf(GetVariableSystem.Exists('lighting'), 'environment'), 'environment_event_fp1_throneroom_tribal')]"
+					onclick = "[GetVariableSystem.Set(AddTextIf(Not(GetVariableSystem.Exists('lighting')), 'environment'), 'environment_event_fp1_throneroom_tribal')]"
 				}
 				bg_button = {
 					text = "big_throneroom_norse2"
@@ -1931,7 +1320,7 @@ template "bg_buttons"
 						texture = "gfx/interface/illustrations/main_menu/fp1_frontend_nontribal.dds"
 					}
 					blockoverride "light" { onclick = "[GetVariableSystem.Set('environment', 'environment_event_fp1_throneroom_nontribal')]" }
-					onclick = "[GetVariableSystem.Set(AddTextIf(GetVariableSystem.Exists('lighting'), 'environment'), 'environment_event_fp1_throneroom_nontribal')]"
+					onclick = "[GetVariableSystem.Set(AddTextIf(Not(GetVariableSystem.Exists('lighting')), 'environment'), 'environment_event_fp1_throneroom_nontribal')]"
 				}
 			}
 			bg_button = {
@@ -1942,7 +1331,7 @@ template "bg_buttons"
 					texture = "gfx/interface/illustrations/main_menu/frontend_west.dds"
 				}
 				blockoverride "light" { onclick = "[GetVariableSystem.Set('environment', 'environment_frontend_west_main')]" }
-				onclick = "[GetVariableSystem.Set(AddTextIf(GetVariableSystem.Exists('lighting'), 'environment'), 'environment_frontend_west_main')]"
+				onclick = "[GetVariableSystem.Set(AddTextIf(Not(GetVariableSystem.Exists('lighting')), 'environment'), 'environment_frontend_west_main')]"
 			}
 		}
 
@@ -1964,7 +1353,7 @@ template "bg_buttons"
 					texture = "gfx/interface/illustrations/character_view/throneroom_east.dds"
 				}
 				blockoverride "light" { onclick = "[GetVariableSystem.Set('environment', 'environment_frontend_east_main')]" }
-				onclick = "[GetVariableSystem.Set(AddTextIf(GetVariableSystem.Exists('lighting'), 'environment'), 'environment_frontend_east_main')]"
+				onclick = "[GetVariableSystem.Set(AddTextIf(Not(GetVariableSystem.Exists('lighting')), 'environment'), 'environment_frontend_east_main')]"
 			}
 			bg_button = {
 				text = "throneroom_india"
@@ -1974,7 +1363,7 @@ template "bg_buttons"
 					texture = "gfx/interface/illustrations/character_view/throneroom_india.dds"
 				}
 				blockoverride "light" { onclick = "[GetVariableSystem.Set('environment', 'environment_frontend_india_main')]" }
-				onclick = "[GetVariableSystem.Set(AddTextIf(GetVariableSystem.Exists('lighting'), 'environment'), 'environment_frontend_india_main')]"
+				onclick = "[GetVariableSystem.Set(AddTextIf(Not(GetVariableSystem.Exists('lighting')), 'environment'), 'environment_frontend_india_main')]"
 
 			}
 			bg_button = {
@@ -1985,7 +1374,7 @@ template "bg_buttons"
 					texture = "gfx/interface/illustrations/character_view/throneroom_mediterranean.dds"
 				}
 				blockoverride "light" { onclick = "[GetVariableSystem.Set('environment', 'environment_frontend_mediterranean_main')]" }
-				onclick = "[GetVariableSystem.Set(AddTextIf(GetVariableSystem.Exists('lighting'), 'environment'), 'environment_frontend_mediterranean_main')]"
+				onclick = "[GetVariableSystem.Set(AddTextIf(Not(GetVariableSystem.Exists('lighting')), 'environment'), 'environment_frontend_mediterranean_main')]"
 			}
 			bg_button = {
 				text = "throneroom_tribal"
@@ -1995,7 +1384,7 @@ template "bg_buttons"
 					texture = "gfx/interface/illustrations/character_view/throneroom_tribal.dds"
 				}
 				blockoverride "light" { onclick = "[GetVariableSystem.Set('environment', 'environment_frontend_tribal_main')]" }
-				onclick = "[GetVariableSystem.Set(AddTextIf(GetVariableSystem.Exists('lighting'), 'environment'), 'environment_frontend_tribal_main')]"
+				onclick = "[GetVariableSystem.Set(AddTextIf(Not(GetVariableSystem.Exists('lighting')), 'environment'), 'environment_frontend_tribal_main')]"
 			}
 			flowcontainer = {
 				direction = vertical
@@ -2012,7 +1401,7 @@ template "bg_buttons"
 						texture = "gfx/interface/illustrations/character_view/fp1_throneroom_tribal.dds"
 					}
 					blockoverride "light" { onclick = "[GetVariableSystem.Set('environment', 'environment_event_fp1_throneroom_tribal')]" }
-					onclick = "[GetVariableSystem.Set(AddTextIf(GetVariableSystem.Exists('lighting'), 'environment'), 'environment_event_fp1_throneroom_tribal')]"
+					onclick = "[GetVariableSystem.Set(AddTextIf(Not(GetVariableSystem.Exists('lighting')), 'environment'), 'environment_event_fp1_throneroom_tribal')]"
 
 				}
 				bg_button = {
@@ -2023,7 +1412,7 @@ template "bg_buttons"
 						texture = "gfx/interface/illustrations/character_view/fp1_throneroom_nontribal.dds"
 					}
 					blockoverride "light" { onclick = "[GetVariableSystem.Set('environment', 'environment_event_fp1_throneroom_nontribal')]" }
-					onclick = "[GetVariableSystem.Set(AddTextIf(GetVariableSystem.Exists('lighting'), 'environment'), 'environment_event_fp1_throneroom_nontribal')]"
+					onclick = "[GetVariableSystem.Set(AddTextIf(Not(GetVariableSystem.Exists('lighting')), 'environment'), 'environment_event_fp1_throneroom_nontribal')]"
 				}
 			}
 			bg_button = {
@@ -2034,7 +1423,7 @@ template "bg_buttons"
 					texture = "gfx/interface/illustrations/character_view/throneroom_west.dds"
 				}
 				blockoverride "light" { onclick = "[GetVariableSystem.Set('environment', 'environment_frontend_west_main')]" }
-				onclick = "[GetVariableSystem.Set(AddTextIf(GetVariableSystem.Exists('lighting'), 'environment'), 'environment_frontend_west_main')]"
+				onclick = "[GetVariableSystem.Set(AddTextIf(Not(GetVariableSystem.Exists('lighting')), 'environment'), 'environment_frontend_west_main')]"
 
 			}
 		}
@@ -2098,7 +1487,7 @@ template "bg_buttons"
 					texture = "gfx/interface/illustrations/event_scenes_frontend/alley_day.dds"
 				}
 				blockoverride "light" { onclick = "[GetVariableSystem.Set('environment', 'environment_event_alley_day')]" }
-				onclick = "[GetVariableSystem.Set(AddTextIf(GetVariableSystem.Exists('lighting'), 'environment'), 'environment_event_alley_day')]"
+				onclick = "[GetVariableSystem.Set(AddTextIf(Not(GetVariableSystem.Exists('lighting')), 'environment'), 'environment_event_alley_day')]"
 			}
 			bg_button = {
 				text = "alley_night"
@@ -2108,7 +1497,7 @@ template "bg_buttons"
 					texture = "gfx/interface/illustrations/event_scenes/alley.dds"
 				}
 				blockoverride "light" { onclick = "[GetVariableSystem.Set('environment', 'environment_event_alley')]" }
-				onclick = "[GetVariableSystem.Set(AddTextIf(GetVariableSystem.Exists('lighting'), 'environment'), 'environment_event_alley')]"
+				onclick = "[GetVariableSystem.Set(AddTextIf(Not(GetVariableSystem.Exists('lighting')), 'environment'), 'environment_event_alley')]"
 			}
 			bg_button = {
 				text = "armory"
@@ -2118,7 +1507,7 @@ template "bg_buttons"
 					texture = "gfx/interface/illustrations/event_scenes_frontend/armory.dds"
 				}
 				blockoverride "light" { onclick = "[GetVariableSystem.Set('environment', 'environment_event_armory')]" }
-				onclick = "[GetVariableSystem.Set(AddTextIf(GetVariableSystem.Exists('lighting'), 'environment'), 'environment_event_armory')]"
+				onclick = "[GetVariableSystem.Set(AddTextIf(Not(GetVariableSystem.Exists('lighting')), 'environment'), 'environment_event_armory')]"
 			}
 			bg_button = {
 				text = "battlefield"
@@ -2128,7 +1517,7 @@ template "bg_buttons"
 					texture = "gfx/interface/illustrations/event_scenes/battlefield.dds"
 				}
 				blockoverride "light" { onclick = "[GetVariableSystem.Set('environment', 'environment_event_battlefield')]" }
-				onclick = "[GetVariableSystem.Set(AddTextIf(GetVariableSystem.Exists('lighting'), 'environment'), 'environment_event_battlefield')]"
+				onclick = "[GetVariableSystem.Set(AddTextIf(Not(GetVariableSystem.Exists('lighting')), 'environment'), 'environment_event_battlefield')]"
 			}
 			bg_button = {
 				text = "bedchamber"
@@ -2138,7 +1527,7 @@ template "bg_buttons"
 					texture = "gfx/interface/illustrations/event_scenes/bedchamber.dds"
 				}
 				blockoverride "light" { onclick = "[GetVariableSystem.Set('environment', 'environment_event_bedchamber')]" }
-				onclick = "[GetVariableSystem.Set(AddTextIf(GetVariableSystem.Exists('lighting'), 'environment'), 'environment_event_bedchamber')]"
+				onclick = "[GetVariableSystem.Set(AddTextIf(Not(GetVariableSystem.Exists('lighting')), 'environment'), 'environment_event_bedchamber')]"
 			}
 			bg_button = {
 				text = "camp"
@@ -2148,7 +1537,7 @@ template "bg_buttons"
 					texture = "gfx/interface/illustrations/event_scenes_frontend/genericcamp.dds"
 				}
 				blockoverride "light" { onclick = "[GetVariableSystem.Set('environment', 'environment_event_genericcamp')]" }
-				onclick = "[GetVariableSystem.Set(AddTextIf(GetVariableSystem.Exists('lighting'), 'environment'), 'environment_event_genericcamp')]"
+				onclick = "[GetVariableSystem.Set(AddTextIf(Not(GetVariableSystem.Exists('lighting')), 'environment'), 'environment_event_genericcamp')]"
 			}
 			bg_button = {
 				text = "courtyard"
@@ -2158,7 +1547,7 @@ template "bg_buttons"
 					texture = "gfx/interface/illustrations/event_scenes/courtyard.dds"
 				}
 				blockoverride "light" { onclick = "[GetVariableSystem.Set('environment', 'environment_event_courtyard')]" }
-				onclick = "[GetVariableSystem.Set(AddTextIf(GetVariableSystem.Exists('lighting'), 'environment'), 'environment_event_courtyard')]"
+				onclick = "[GetVariableSystem.Set(AddTextIf(Not(GetVariableSystem.Exists('lighting')), 'environment'), 'environment_event_courtyard')]"
 			}
 			bg_button = {
 				text = "corridor_day"
@@ -2168,7 +1557,7 @@ template "bg_buttons"
 					texture = "gfx/interface/illustrations/event_scenes/corridor_day.dds"
 				}
 				blockoverride "light" { onclick = "[GetVariableSystem.Set('environment', 'environment_event_corridor_day')]" }
-				onclick = "[GetVariableSystem.Set(AddTextIf(GetVariableSystem.Exists('lighting'), 'environment'), 'environment_event_corridor_day')]"
+				onclick = "[GetVariableSystem.Set(AddTextIf(Not(GetVariableSystem.Exists('lighting')), 'environment'), 'environment_event_corridor_day')]"
 			}
 			bg_button = {
 				text = "corridor_night"
@@ -2178,7 +1567,7 @@ template "bg_buttons"
 					texture = "gfx/interface/illustrations/event_scenes/corridor.dds"
 				}
 				blockoverride "light" { onclick = "[GetVariableSystem.Set('environment', 'environment_event_corridor')]" }
-				onclick = "[GetVariableSystem.Set(AddTextIf(GetVariableSystem.Exists('lighting'), 'environment'), 'environment_event_corridor')]"
+				onclick = "[GetVariableSystem.Set(AddTextIf(Not(GetVariableSystem.Exists('lighting')), 'environment'), 'environment_event_corridor')]"
 			}
 			bg_button = {
 				text = "docks"
@@ -2188,7 +1577,7 @@ template "bg_buttons"
 					texture = "gfx/interface/illustrations/event_scenes/docks.dds"
 				}
 				blockoverride "light" { onclick = "[GetVariableSystem.Set('environment', 'environment_event_docks')]" }
-				onclick = "[GetVariableSystem.Set(AddTextIf(GetVariableSystem.Exists('lighting'), 'environment'), 'environment_event_docks')]"
+				onclick = "[GetVariableSystem.Set(AddTextIf(Not(GetVariableSystem.Exists('lighting')), 'environment'), 'environment_event_docks')]"
 			}
 			bg_button = {
 				text = "dungeon"
@@ -2198,7 +1587,7 @@ template "bg_buttons"
 					texture = "gfx/interface/illustrations/event_scenes/dungeon.dds"
 				}
 				blockoverride "light" { onclick = "[GetVariableSystem.Set('environment', 'environment_event_dungeon')]" }
-				onclick = "[GetVariableSystem.Set(AddTextIf(GetVariableSystem.Exists('lighting'), 'environment'), 'environment_event_dungeon')]"
+				onclick = "[GetVariableSystem.Set(AddTextIf(Not(GetVariableSystem.Exists('lighting')), 'environment'), 'environment_event_dungeon')]"
 			}
 			bg_button = {
 				datacontext = "[GetScriptedGui('has_dlc_northern_lords')]"
@@ -2211,7 +1600,7 @@ template "bg_buttons"
 					texture = "gfx/interface/illustrations/event_scenes/fp1_tribal_prison.dds"
 				}
 				blockoverride "light" { onclick = "[GetVariableSystem.Set('environment', 'environment_event_fp1_tribal_prison')]" }
-				onclick = "[GetVariableSystem.Set(AddTextIf(GetVariableSystem.Exists('lighting'), 'environment'), 'environment_event_fp1_tribal_prison')]"
+				onclick = "[GetVariableSystem.Set(AddTextIf(Not(GetVariableSystem.Exists('lighting')), 'environment'), 'environment_event_fp1_tribal_prison')]"
 			}
 			bg_button = {
 				text = "feast"
@@ -2221,7 +1610,7 @@ template "bg_buttons"
 					texture = "gfx/interface/illustrations/event_scenes/feast.dds"
 				}
 				blockoverride "light" { onclick = "[GetVariableSystem.Set('environment', 'environment_event_feast')]" }
-				onclick = "[GetVariableSystem.Set(AddTextIf(GetVariableSystem.Exists('lighting'), 'environment'), 'environment_event_feast')]"
+				onclick = "[GetVariableSystem.Set(AddTextIf(Not(GetVariableSystem.Exists('lighting')), 'environment'), 'environment_event_feast')]"
 			}
 			bg_button = {
 				datacontext = "[GetScriptedGui('has_dlc_northern_lords')]"
@@ -2234,7 +1623,7 @@ template "bg_buttons"
 					texture = "gfx/interface/illustrations/event_scenes/fp1_viking_feast.dds"
 				}
 				blockoverride "light" { onclick = "[GetVariableSystem.Set('environment', 'environment_event_fp1_viking_feast')]" }
-				onclick = "[GetVariableSystem.Set(AddTextIf(GetVariableSystem.Exists('lighting'), 'environment'), 'environment_event_fp1_viking_feast')]"
+				onclick = "[GetVariableSystem.Set(AddTextIf(Not(GetVariableSystem.Exists('lighting')), 'environment'), 'environment_event_fp1_viking_feast')]"
 			}
 			bg_button = {
 				text = "garden"
@@ -2244,7 +1633,7 @@ template "bg_buttons"
 					texture = "gfx/interface/illustrations/event_scenes/garden.dds"
 				}
 				blockoverride "light" { onclick = "[GetVariableSystem.Set('environment', 'environment_event_garden')]" }
-				onclick = "[GetVariableSystem.Set(AddTextIf(GetVariableSystem.Exists('lighting'), 'environment'), 'environment_event_garden')]"
+				onclick = "[GetVariableSystem.Set(AddTextIf(Not(GetVariableSystem.Exists('lighting')), 'environment'), 'environment_event_garden')]"
 			}
 			bg_button = {
 				text = "gallows"
@@ -2254,7 +1643,7 @@ template "bg_buttons"
 					texture = "gfx/interface/illustrations/event_scenes/gallows.dds"
 				}
 				blockoverride "light" { onclick = "[GetVariableSystem.Set('environment', 'environment_event_gallows')]" }
-				onclick = "[GetVariableSystem.Set(AddTextIf(GetVariableSystem.Exists('lighting'), 'environment'), 'environment_event_gallows')]"
+				onclick = "[GetVariableSystem.Set(AddTextIf(Not(GetVariableSystem.Exists('lighting')), 'environment'), 'environment_event_gallows')]"
 			}
 			# bg_button = {
 			# 	text = "hunt"
@@ -2273,7 +1662,7 @@ template "bg_buttons"
 					texture = "gfx/interface/illustrations/event_scenes/raid_burning.dds"
 				}
 				blockoverride "light" { onclick = "[GetVariableSystem.Set('environment', 'environment_event_feast')]" }
-				onclick = "[GetVariableSystem.Set(AddTextIf(GetVariableSystem.Exists('lighting'), 'environment'), 'environment_event_feast')]"
+				onclick = "[GetVariableSystem.Set(AddTextIf(Not(GetVariableSystem.Exists('lighting')), 'environment'), 'environment_event_feast')]"
 			}
 		}
 
@@ -2296,7 +1685,7 @@ template "bg_buttons"
 					texture = "gfx/interface/illustrations/event_scenes/fp1_steward_study.dds"
 				}
 				blockoverride "light" { onclick = "[GetVariableSystem.Set('environment', 'environment_event_fp1_steward_study')]" }
-				onclick = "[GetVariableSystem.Set(AddTextIf(GetVariableSystem.Exists('lighting'), 'environment'), 'environment_event_fp1_steward_study')]"
+				onclick = "[GetVariableSystem.Set(AddTextIf(Not(GetVariableSystem.Exists('lighting')), 'environment'), 'environment_event_fp1_steward_study')]"
 			}
 			bg_button = {
 				text = "corridor_night_norse"
@@ -2306,7 +1695,7 @@ template "bg_buttons"
 					texture = "gfx/interface/illustrations/event_scenes/fp1_tribal_corridor.dds"
 				}
 				blockoverride "light" { onclick = "[GetVariableSystem.Set('environment', 'environment_event_fp1_tribal_corridor')]" }
-				onclick = "[GetVariableSystem.Set(AddTextIf(GetVariableSystem.Exists('lighting'), 'environment'), 'environment_event_fp1_tribal_corridor')]"
+				onclick = "[GetVariableSystem.Set(AddTextIf(Not(GetVariableSystem.Exists('lighting')), 'environment'), 'environment_event_fp1_tribal_corridor')]"
 			}
 			bg_button = {
 				text = "longship"
@@ -2316,7 +1705,7 @@ template "bg_buttons"
 					texture = "gfx/interface/illustrations/event_scenes/fp1_beached_longship.dds"
 				}
 				blockoverride "light" { onclick = "[GetVariableSystem.Set('environment', 'environment_event_fp1_beached_longship')]" }
-				onclick = "[GetVariableSystem.Set(AddTextIf(GetVariableSystem.Exists('lighting'), 'environment'), 'environment_event_fp1_beached_longship')]"
+				onclick = "[GetVariableSystem.Set(AddTextIf(Not(GetVariableSystem.Exists('lighting')), 'environment'), 'environment_event_fp1_beached_longship')]"
 			}
 			bg_button = {
 				text = "ocean"
@@ -2326,7 +1715,7 @@ template "bg_buttons"
 					texture = "gfx/interface/illustrations/event_scenes/fp1_ocean.dds"
 				}
 				blockoverride "light" { onclick = "[GetVariableSystem.Set('environment', 'environment_event_fp1_ocean')]" }
-				onclick = "[GetVariableSystem.Set(AddTextIf(GetVariableSystem.Exists('lighting'), 'environment'), 'environment_event_fp1_ocean')]"
+				onclick = "[GetVariableSystem.Set(AddTextIf(Not(GetVariableSystem.Exists('lighting')), 'environment'), 'environment_event_fp1_ocean')]"
 			}
 			bg_button = {
 				text = "runestone"
@@ -2336,7 +1725,7 @@ template "bg_buttons"
 					texture = "gfx/interface/illustrations/event_scenes/fp1_runestone.dds"
 				}
 				blockoverride "light" { onclick = "[GetVariableSystem.Set('environment', 'environment_event_fp1_runestone')]" }
-				onclick = "[GetVariableSystem.Set(AddTextIf(GetVariableSystem.Exists('lighting'), 'environment'), 'environment_event_fp1_runestone')]"
+				onclick = "[GetVariableSystem.Set(AddTextIf(Not(GetVariableSystem.Exists('lighting')), 'environment'), 'environment_event_fp1_runestone')]"
 			}
 			bg_button = {
 				text = "runestone_circle"
@@ -2346,7 +1735,7 @@ template "bg_buttons"
 					texture = "gfx/interface/illustrations/event_scenes/fp1_runestone_circle.dds"
 				}
 				blockoverride "light" { onclick = "[GetVariableSystem.Set('environment', 'environment_event_fp1_runestone_circle')]" }
-				onclick = "[GetVariableSystem.Set(AddTextIf(GetVariableSystem.Exists('lighting'), 'environment'), 'environment_event_fp1_runestone_circle')]"
+				onclick = "[GetVariableSystem.Set(AddTextIf(Not(GetVariableSystem.Exists('lighting')), 'environment'), 'environment_event_fp1_runestone_circle')]"
 			}
 		}
 
@@ -2368,7 +1757,7 @@ template "bg_buttons"
 					texture = "gfx/interface/illustrations/event_scenes/study_physician.dds"
 				}
 				blockoverride "light" { onclick = "[GetVariableSystem.Set('environment', 'environment_event_study_physician')]" }
-				onclick = "[GetVariableSystem.Set(AddTextIf(GetVariableSystem.Exists('lighting'), 'environment'), 'environment_event_study_physician')]"
+				onclick = "[GetVariableSystem.Set(AddTextIf(Not(GetVariableSystem.Exists('lighting')), 'environment'), 'environment_event_study_physician')]"
 			}
 			bg_button = {
 				text = "council_chamber"
@@ -2447,7 +1836,7 @@ template "bg_buttons"
 				texture = "gfx/interface/illustrations/event_scenes/church.dds"
 			}
 			blockoverride "light" { onclick = "[GetVariableSystem.Set('environment', 'environment_event_church')]" }
-			onclick = "[GetVariableSystem.Set(AddTextIf(GetVariableSystem.Exists('lighting'), 'environment'), 'environment_event_church')]"
+			onclick = "[GetVariableSystem.Set(AddTextIf(Not(GetVariableSystem.Exists('lighting')), 'environment'), 'environment_event_church')]"
 		}
 		bg_button = {
 			text = "mosque"
@@ -2457,7 +1846,7 @@ template "bg_buttons"
 				texture = "gfx/interface/illustrations/event_scenes/mosque.dds"
 			}
 			blockoverride "light" { onclick = "[GetVariableSystem.Set('environment', 'environment_event_mosque')]" }
-			onclick = "[GetVariableSystem.Set(AddTextIf(GetVariableSystem.Exists('lighting'), 'environment'), 'environment_event_mosque')]"
+			onclick = "[GetVariableSystem.Set(AddTextIf(Not(GetVariableSystem.Exists('lighting')), 'environment'), 'environment_event_mosque')]"
 		}
 		bg_button = {
 			text = "temple"
@@ -2467,7 +1856,7 @@ template "bg_buttons"
 				texture = "gfx/interface/illustrations/event_scenes/temple.dds"
 			}
 			blockoverride "light" { onclick = "[GetVariableSystem.Set('environment', 'environment_event_temple')]" }
-			onclick = "[GetVariableSystem.Set(AddTextIf(GetVariableSystem.Exists('lighting'), 'environment'), 'environment_event_temple')]"
+			onclick = "[GetVariableSystem.Set(AddTextIf(Not(GetVariableSystem.Exists('lighting')), 'environment'), 'environment_event_temple')]"
 		}
 		bg_button = {
 			text = "temple_norse"
@@ -2479,7 +1868,7 @@ template "bg_buttons"
 				texture = "gfx/interface/illustrations/event_scenes/fp1_tribal_temple.dds"
 			}
 			blockoverride "light" { onclick = "[GetVariableSystem.Set('environment', 'environment_event_fp1_tribal_temple')]" }
-			onclick = "[GetVariableSystem.Set(AddTextIf(GetVariableSystem.Exists('lighting'), 'environment'), 'environment_event_fp1_tribal_temple')]"
+			onclick = "[GetVariableSystem.Set(AddTextIf(Not(GetVariableSystem.Exists('lighting')), 'environment'), 'environment_event_fp1_tribal_temple')]"
 		}
 
 		widget = {
@@ -2494,7 +1883,7 @@ template "bg_buttons"
 				texture = "gfx/interface/illustrations/event_scenes/market_east.dds"
 			}
 			blockoverride "light" { onclick = "[GetVariableSystem.Set('environment', 'environment_event_market_east')]" }
-			onclick = "[GetVariableSystem.Set(AddTextIf(GetVariableSystem.Exists('lighting'), 'environment'), 'environment_event_market_east')]"
+			onclick = "[GetVariableSystem.Set(AddTextIf(Not(GetVariableSystem.Exists('lighting')), 'environment'), 'environment_event_market_east')]"
 		}
 		bg_button = {
 			text = "market_tribal"
@@ -2504,7 +1893,7 @@ template "bg_buttons"
 				texture = "gfx/interface/illustrations/event_scenes/market_tribal.dds"
 			}
 			blockoverride "light" { onclick = "[GetVariableSystem.Set('environment', 'environment_event_market_tribal')]" }
-			onclick = "[GetVariableSystem.Set(AddTextIf(GetVariableSystem.Exists('lighting'), 'environment'), 'environment_event_market_tribal')]"
+			onclick = "[GetVariableSystem.Set(AddTextIf(Not(GetVariableSystem.Exists('lighting')), 'environment'), 'environment_event_market_tribal')]"
 		}
 		bg_button = {
 			text = "market_west"
@@ -2514,7 +1903,7 @@ template "bg_buttons"
 				texture = "gfx/interface/illustrations/event_scenes/market_west.dds"
 			}
 			blockoverride "light" { onclick = "[GetVariableSystem.Set('environment', 'environment_event_market_west')]" }
-			onclick = "[GetVariableSystem.Set(AddTextIf(GetVariableSystem.Exists('lighting'), 'environment'), 'environment_event_market_west')]"
+			onclick = "[GetVariableSystem.Set(AddTextIf(Not(GetVariableSystem.Exists('lighting')), 'environment'), 'environment_event_market_west')]"
 		}
 		bg_button = {
 			text = "tavern"
@@ -2524,7 +1913,7 @@ template "bg_buttons"
 				texture = "gfx/interface/illustrations/event_scenes/tavern.dds"
 			}
 			blockoverride "light" { onclick = "[GetVariableSystem.Set('environment', 'environment_event_tavern')]" }
-			onclick = "[GetVariableSystem.Set(AddTextIf(GetVariableSystem.Exists('lighting'), 'environment'), 'environment_event_tavern')]"
+			onclick = "[GetVariableSystem.Set(AddTextIf(Not(GetVariableSystem.Exists('lighting')), 'environment'), 'environment_event_tavern')]"
 		}
 
 		widget = {
@@ -2539,7 +1928,7 @@ template "bg_buttons"
 				texture = "gfx/interface/illustrations/event_scenes/farms.dds"
 			}
 			blockoverride "light" { onclick = "[GetVariableSystem.Set('environment', 'environment_event_farms')]" }
-			onclick = "[GetVariableSystem.Set(AddTextIf(GetVariableSystem.Exists('lighting'), 'environment'), 'environment_event_farms')]"
+			onclick = "[GetVariableSystem.Set(AddTextIf(Not(GetVariableSystem.Exists('lighting')), 'environment'), 'environment_event_farms')]"
 		}
 		bg_button = {
 			text = "forest"
@@ -2549,7 +1938,7 @@ template "bg_buttons"
 				texture = "gfx/interface/illustrations/event_scenes/forest.dds"
 			}
 			blockoverride "light" { onclick = "[GetVariableSystem.Set('environment', 'environment_event_forest')]" }
-			onclick = "[GetVariableSystem.Set(AddTextIf(GetVariableSystem.Exists('lighting'), 'environment'), 'environment_event_forest')]"
+			onclick = "[GetVariableSystem.Set(AddTextIf(Not(GetVariableSystem.Exists('lighting')), 'environment'), 'environment_event_forest')]"
 		}
 		bg_button = {
 			text = "forest_pine"
@@ -2559,7 +1948,7 @@ template "bg_buttons"
 				texture = "gfx/interface/illustrations/event_scenes/forest_pine.dds"
 			}
 			blockoverride "light" { onclick = "[GetVariableSystem.Set('environment', 'environment_event_forest_pine')]" }
-			onclick = "[GetVariableSystem.Set(AddTextIf(GetVariableSystem.Exists('lighting'), 'environment'), 'environment_event_forest_pine')]"
+			onclick = "[GetVariableSystem.Set(AddTextIf(Not(GetVariableSystem.Exists('lighting')), 'environment'), 'environment_event_forest_pine')]"
 		}
 		bg_button = {
 			text = "desert"
@@ -2569,7 +1958,7 @@ template "bg_buttons"
 				texture = "gfx/interface/illustrations/event_scenes/desert.dds"
 			}
 			blockoverride "light" { onclick = "[GetVariableSystem.Set('environment', 'environment_event_desert')]" }
-			onclick = "[GetVariableSystem.Set(AddTextIf(GetVariableSystem.Exists('lighting'), 'environment'), 'environment_event_desert')]"
+			onclick = "[GetVariableSystem.Set(AddTextIf(Not(GetVariableSystem.Exists('lighting')), 'environment'), 'environment_event_desert')]"
 		}
 		bg_button = {
 			text = "mountains"
@@ -2579,7 +1968,7 @@ template "bg_buttons"
 				texture = "gfx/interface/illustrations/event_scenes/mountains.dds"
 			}
 			blockoverride "light" { onclick = "[GetVariableSystem.Set('environment', 'environment_event_mountains')]" }
-			onclick = "[GetVariableSystem.Set(AddTextIf(GetVariableSystem.Exists('lighting'), 'environment'), 'environment_event_mountains')]"
+			onclick = "[GetVariableSystem.Set(AddTextIf(Not(GetVariableSystem.Exists('lighting')), 'environment'), 'environment_event_mountains')]"
 		}
 		bg_button = {
 			text = "steppe"
@@ -2589,7 +1978,7 @@ template "bg_buttons"
 				texture = "gfx/interface/illustrations/event_scenes/steppe.dds"
 			}
 			blockoverride "light" { onclick = "[GetVariableSystem.Set('environment', 'environment_event_steppe')]" }
-			onclick = "[GetVariableSystem.Set(AddTextIf(GetVariableSystem.Exists('lighting'), 'environment'), 'environment_event_steppe')]"
+			onclick = "[GetVariableSystem.Set(AddTextIf(Not(GetVariableSystem.Exists('lighting')), 'environment'), 'environment_event_steppe')]"
 		}
 
 		widget = {
